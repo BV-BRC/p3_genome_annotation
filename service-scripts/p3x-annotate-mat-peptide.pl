@@ -18,6 +18,7 @@ use IPC::Run qw(run);
 use File::SearchPath qw(searchpath);
 
 my($opt, $usage) = describe_options("%c %o",
+				    ["remove-existing" => "Remove existing CDS and mat_peptide features if vipr_mat_peptide run is successful"],
 				    ["input|i=s" => "Input file"],
 				    ["output|o=s" => "Output file"],
 				    ["debug|d" => "Enable debugging"],
@@ -91,15 +92,24 @@ my(@out) = glob("$tempdir/*_matpept_*.faa");
 
 if (@out == 0)
 {
-    die "Failed to write an output file\n";
+    warn "Failed to write an output file\n";
+    $gto->destroy_to_file($opt->output);
+    exit 0;
 }
 elsif (@out > 1)
 {
-    die "Multiple output files written; this should not happen. Tmp dir reused?\n";
+    warn "Multiple output files written; this should not happen. Tmp dir reused?\n";
+    $gto->destroy_to_file($opt->output);
+    exit 0;
 }
 my $out = $out[0];
 
-open(O, "<", $out) or die "Cannot open output file $out: $!";
+if (!open(O, "<", $out))
+{
+    warn "Cannot open output file $out: $!";
+    $gto->destroy_to_file($opt->output);
+    exit 0;
+}
 
 my $hostname = `hostname`;
 chomp $hostname;
@@ -112,6 +122,13 @@ my $event = {
 my $event_id = $gto->add_analysis_event($event);
 my $id_client = IDclient->new($gto);
 my $id_prefix = "fig|$gto->{id}";
+
+if (-s O > 0 && $opt->remove_existing)
+{
+    my @to_del = $gto->fids_of_type('mat_peptide');
+    print "Delete @to_del\n";
+    $gto->delete_feature($_) foreach @to_del;
+}
 
 while (my($id, $def, $seq) = read_next_fasta_seq(\*O))
 {

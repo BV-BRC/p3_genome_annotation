@@ -22,8 +22,8 @@ use Cwd;
 my($opt, $usage) = describe_options("%c %o",
 				    ["reference=s" => "Vigor4 reference name"],
 				    ["taxon=i" => "Taxon identifier"],
-				    ["remove-existing" => "Remove existing CDS and mat_peptide features if vigor4 run is successful"],
-				    ["input|i=s" => "Input file"],
+				    ["remove-existing" => "Remove existing CDS and mat_peptide features if vigor4 run is successful"],	
+			    ["input|i=s" => "Input file"],
 				    ["output|o=s" => "Output file"],
 				    ["debug|d" => "Enable debugging"],
 				    ["help|h" => "Show this help message"]);
@@ -114,7 +114,7 @@ my @vigor_params = ("-i", $sequences_file,
 		    "-o", "$here/vigor_out");
 
 print STDERR Dumper(\@vigor_params);
-my $ok = run(["echo", "vigor4", @vigor_params],
+my $ok = run(["vigor4", @vigor_params],
 	     init => sub { chdir $tempdir; system("pwd"); },
 	     ">", "$here/vigor4.stdout.txt",
 	     "2>", "$here/vigor4.stderr.txt");
