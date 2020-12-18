@@ -1,5 +1,9 @@
 #!/usr/bin/env perl
 
+#
+# Build the VigorTaxonMap.pm module from a template based on the tabular text file.
+#
+
 use strict;
 use Template;
 use Data::Dumper;
