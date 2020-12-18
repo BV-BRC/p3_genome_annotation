@@ -27,7 +27,10 @@ TPAGE_ARGS = --define kb_top=$(TARGET) --define kb_runtime=$(DEPLOY_RUNTIME) --d
 	--define kb_starman_workers=$(STARMAN_WORKERS) \
 	--define kb_starman_max_requests=$(STARMAN_MAX_REQUESTS)
 
-all: bin 
+all: build-libs bin 
+
+build-libs:
+	$(PERL) build-taxon-map.pl  vigor-taxon-map.txt VigorTaxonMap.pm.tt lib/Bio/P3/GenomeAnnotationApp/VigorTaxonMap.pm
 
 bin: $(BIN_PERL) $(BIN_SERVICE_PERL)
 

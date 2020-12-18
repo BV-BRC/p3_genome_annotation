@@ -1,0 +1,9 @@
+package Bio::P3::GenomeAnnotationApp::VigorTaxonMap;
+
+our $map = {
+[% FOR ent IN map -%]
+"[% ent.taxon %]" => { db => "[% ent.db %]", name => "[% ent.name %]", taxon => "[% ent.taxon %]" },
+[% END -%]
+};
+
+1;
