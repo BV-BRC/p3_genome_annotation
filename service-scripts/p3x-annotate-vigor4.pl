@@ -58,7 +58,6 @@ if (!$reference_name)
     {
 	my $api = P3DataAPI->new;
 	my @res = $api->query("taxonomy", ['eq', 'taxon_id', $taxon], ['select', 'taxon_name', 'lineage_ids', 'lineage_names']);
-	print Dumper(\@res);
 	my $res = $res[0];
 	my $ids = $res->{lineage_ids};
 	my $names = $res->{lineage_names};
@@ -115,7 +114,7 @@ my @vigor_params = ("-i", $sequences_file,
 
 print STDERR Dumper(\@vigor_params);
 my $ok = run(["vigor4", @vigor_params],
-	     init => sub { chdir $tempdir; system("pwd"); },
+	     init => sub { chdir $tempdir; },
 	     ">", "$here/vigor4.stdout.txt",
 	     "2>", "$here/vigor4.stderr.txt");
 if (!$ok)
@@ -229,7 +228,7 @@ if (open(my $pep_fh, "<", "$here/vigor_out.pep"))
     if (%features && $opt->remove_existing)
     {
 	my @to_del = $genome_in->fids_of_type('CDS', 'mat_peptide', 'pseudogene');
-	print "Delete @to_del\n";
+	print STDERR "Delete @to_del\n";
 	$genome_in->delete_feature($_) foreach @to_del;
     }
     

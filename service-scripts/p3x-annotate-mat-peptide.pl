@@ -65,10 +65,54 @@ else
 my $gto = GenomeTypeObject->create_from_file($input_gto);
 $gto or die "Could not parse input gto\n";
 
+#
+# Read again, delete mat_peptides, and write out in order to create genbank
+# without these features to force the caller to find them afresh.
+#
+
+{
+    my $gto_for_gb = GenomeTypeObject->create_from_file($input_gto);
+    $gto_for_gb or die "Could not parse input gto\n";
+
+    #
+    # Check for vigor4 features.
+    #
+    my $vigor_ae;
+    for my $ae ($gto_for_gb->analysis_events)
+    {
+	if ($ae->{tool_name} eq 'vigor4')
+	{
+	    $vigor_ae = $ae;
+	    last;
+	}
+    }
+
+    my @to_del;
+
+    for my $f ($gto_for_gb->features)
+    {
+	if ($f->{type} eq 'mat_peptide')
+	{
+	    if ($f->{feature_creation_event} eq $vigor_ae->{id})
+	    {
+		warn "Already annotated by vigor4. Skipping annotation\n";
+		$gto->destroy_to_file($opt->output);
+		exit 0;
+	    }
+	    push(@to_del, $f->{id});
+	}
+    }
+    print "Delete @to_del from original file\n";
+    
+    $gto_for_gb->delete_feature($_) foreach @to_del;
+
+    $gto_for_gb->destroy_to_file("$tempdir/genome_no_mat_peptide.gto");
+}
+
 my $ok = run(["rast_export_genome",
 	      "--genbank-roundtrip",
 	      "-o", "$tempdir/genome.gb",
-	      "-i", $input_gto,
+	      "-i", "$tempdir/genome_no_mat_peptide.gto",
 	      "genbank"]);
 $ok or die "Failed to export: $?\n";
 
