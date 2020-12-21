@@ -29,9 +29,6 @@ TPAGE_ARGS = --define kb_top=$(TARGET) --define kb_runtime=$(DEPLOY_RUNTIME) --d
 
 all: build-libs bin 
 
-build-libs:
-	$(PERL) build-taxon-map.pl  vigor-taxon-map.txt VigorTaxonMap.pm.tt lib/Bio/P3/GenomeAnnotationApp/VigorTaxonMap.pm
-
 bin: $(BIN_PERL) $(BIN_SERVICE_PERL)
 
 deploy: deploy-all
