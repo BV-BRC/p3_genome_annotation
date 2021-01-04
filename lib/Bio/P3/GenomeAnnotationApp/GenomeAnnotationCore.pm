@@ -180,40 +180,42 @@ sub run_pipeline
 
     my %skip_files = map { $_ => 1 } qw(formatdb.log error.log);
     
-    if (opendir(DH, $out_dir))
+    if (!$self->app->donot_create_result_folder())
     {
-	while (my $f = readdir(DH))
+	if (opendir(DH, $out_dir))
 	{
-	    next if $f =~ /^\./;
-	    next if $skip_files{$f};
-	    print STDERR "Copy $out_dir/$f to $output_folder\n";
-	    my $ok = IPC::Run::run(['p3-cp',
-				    "-r",
-				    "--overwrite",
-				    '-m', 'ini=txt',
-				    '-m', 'aln=txt',
-				    '-m', 'cds=feature_protein_fasta',
-				    '-m', 'pep=feature_protein_fasta',
-				    '-m', 'gff3=gff',
-				    '-m', 'rpt=txt',
-				    '-m', 'txt=txt',
-				    '-m', 'tbl=txt',
-				    '-m', 'warnings=txt',
-				    '-m', 'html=html',
-				    "$out_dir/$f",
-				    "ws:$output_folder"]);
-	    $ok or warn "Error copying $out_dir/$f to $output_folder\n";
+	    while (my $f = readdir(DH))
+	    {
+		next if $f =~ /^\./;
+		next if $skip_files{$f};
+		print STDERR "Copy $out_dir/$f to $output_folder\n";
+		my $ok = IPC::Run::run(['p3-cp',
+					"-r",
+					"--overwrite",
+					'-m', 'ini=txt',
+					'-m', 'aln=txt',
+					'-m', 'cds=feature_protein_fasta',
+					'-m', 'pep=feature_protein_fasta',
+					'-m', 'gff3=gff',
+					'-m', 'rpt=txt',
+					'-m', 'txt=txt',
+					'-m', 'tbl=txt',
+					'-m', 'warnings=txt',
+					'-m', 'html=html',
+					"$out_dir/$f",
+					"ws:$output_folder"]);
+		$ok or warn "Error copying $out_dir/$f to $output_folder\n";
+	    }
+	    closedir(DH);
 	}
-	closedir(DH);
+	else
+	{
+	    warn "Cannot opendir $out_dir\n";
+	}
     }
-    else
-    {
-	warn "Cannot opendir $out_dir\n";
-    }
-
     return $result;
 }
-
+    
 sub default_workflow
 {
     my($self) = @_;
@@ -302,20 +304,25 @@ sub write_output
 {
     my($self, $genome, $result, $meta, $genbank_file, $public_flag, $queue_nowait, $no_index) = @_;
 
-    my $tmpdir = File::Temp->newdir(CLEANUP => 1);
+    my $tmpdir = File::Temp->newdir(CLEANUP => !$ENV{P3_SAVE_TEMPS});
     print STDERR "Created tmpdir $tmpdir\n";
     
-    my $tmp_genome = File::Temp->new(DIR => $tmpdir->dirname);
-    print $tmp_genome $self->json->encode($result);
-    close($tmp_genome);
+    my $tmp_genome = "$tmpdir/tmp_genome.json";
+    open(T, ">", $tmp_genome) or die "Cannot write $tmp_genome: $!";
+    print T $self->json->encode($result);
+    close(T);
 
     my $output_base = $self->params->{output_file};
     my $output_folder = $self->app->result_folder();
     my $ws = $self->app->workspace();
 
     my $gto_path = "$output_folder/$output_base.genome";
-    $ws->save_file_to_file("$tmp_genome", $meta, $gto_path, 'genome', 
-			   1, 1, $self->token);
+
+    if (!$self->app->donot_create_result_folder())
+    {
+	$ws->save_file_to_file("$tmp_genome", $meta, $gto_path, 'genome', 
+			       1, 1, $self->token);
+    }
 
     #
     # Map export format to the file type.
@@ -332,38 +339,41 @@ sub write_output
 		   embl => ['embl', "$output_base.embl"],
 		   );
 
-    while (my($format, $info) = each %formats)
+    if (!$self->app->donot_create_result_folder())
     {
-	my($file_format, $filename) = @$info;
-
-	#
-	# Invoke rast_export_genome explicitly (that is what export_genome does anyway)
-	# to have complete control.
-	#
-
-	my $tmp_out = File::Temp->new();
-	close($tmp_out);
-
-	my $rc = system("rast_export_genome",
-			"-i", "$tmp_genome",
-			"-o", "$tmp_out",
-			"--with-headings",
-			$format);
-	if ($rc == 0)
+	while (my($format, $info) = each %formats)
 	{
-	    my $len = -s "$tmp_out";
-
-	    my $file = "$output_folder/$filename";
-	    print "Save $len to $file\n";
-
-	    $ws->save_file_to_file("$tmp_out", $meta, $file, $file_format, 1, 1, $self->token);
-	}
-	else
-	{
-	    warn "Error exporting $format\n";
+	    my($file_format, $filename) = @$info;
+	    
+	    #
+	    # Invoke rast_export_genome explicitly (that is what export_genome does anyway)
+	    # to have complete control.
+	    #
+	    
+	    my $tmp_out = File::Temp->new();
+	    close($tmp_out);
+	    
+	    my $rc = system("rast_export_genome",
+			    "-i", "$tmp_genome",
+			    "-o", "$tmp_out",
+			    "--with-headings",
+			    $format);
+	    if ($rc == 0)
+	    {
+		my $len = -s "$tmp_out";
+		
+		my $file = "$output_folder/$filename";
+		print "Save $len to $file\n";
+		
+		$ws->save_file_to_file("$tmp_out", $meta, $file, $file_format, 1, 1, $self->token);
+	    }
+	    else
+	    {
+		warn "Error exporting $format\n";
+	    }
 	}
     }
-
+    
     #
     # We also export the load files for indexing.
     # Assume here that AWE has placed us into a directory into which we can write.
@@ -372,11 +382,14 @@ sub write_output
     my $queue_id;
     if (!$no_index)
     {
-	if (write_load_files($ws, $tmp_genome, $genbank_file, $public_flag))
+	if (write_load_files($ws, "$tmp_genome", $genbank_file, $public_flag))
 	{
 	    my $load_folder = "$output_folder/load_files";
-	    
-	    $ws->create({overwrite => 1, objects => [[$load_folder, 'folder']]});
+
+	    if (!$self->app->donot_create_result_folder())
+	    {
+		$ws->create({overwrite => 1, objects => [[$load_folder, 'folder']]});
+	    }
 
 	    my $data_api_url = $self->params->{indexing_url} // data_api_url;
 	    $queue_id = $self->submit_load_files($ws, $load_folder, $self->token->token, $data_api_url, ".", $queue_nowait);
@@ -389,6 +402,11 @@ sub write_output
 sub write_load_files
 {
     my($ws, $genome_json_file, $genbank_file, $public_flag) = @_;
+    if (! -s $genome_json_file)
+    {
+	warn "Genome file is missing: $genome_json_file\n";
+    }
+	
     my @cmd = ("rast2solr", "--genomeobj-file", $genome_json_file);
     if ($genbank_file)
     {
@@ -442,7 +460,10 @@ sub submit_load_files
 	if (-f $path)
 	{
 	    push(@opts, "-F", "$key=\@$path");
-	    $ws->save_file_to_file($path, {}, "$load_folder/$file", 'json', 1, 1, $token);
+	    if (!$self->app->donot_create_result_folder())
+	    {
+		$ws->save_file_to_file($path, {}, "$load_folder/$file", 'json', 1, 1, $token);
+	    }
 	}
     }
 

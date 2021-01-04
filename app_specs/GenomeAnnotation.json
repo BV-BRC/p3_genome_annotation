@@ -79,6 +79,14 @@
       "type": "bool"
     },
     {
+      "id": "skip_workspace_output",
+      "required": 0,
+      "default": false,
+      "label": "Don't write to workspace",
+      "desc": "If set, don't write anything to workspace.",
+      "type": "bool"
+    },
+    {
       "id": "output_path",
       "label": "Output Folder",
       "required": 0,

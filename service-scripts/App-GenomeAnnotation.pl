@@ -261,7 +261,7 @@ sub process_genome
     # quality summarization.
     #
 
-    if (ref($result->{quality}))
+    if (ref($result->{quality}) && !$app->donot_create_result_folder())
     {
 	$ws->save_data_to_file($json->encode($result->{quality}),
 		           {}, "$output_folder/quality.json", "json", 1, 1, $core->token);
