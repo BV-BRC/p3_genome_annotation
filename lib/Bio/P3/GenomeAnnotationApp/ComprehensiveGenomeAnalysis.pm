@@ -646,7 +646,8 @@ sub compute_tree
     my $rc = system(@cmd);
     if ($rc != 0)
     {
-	die "Could not compute tree ingroup\n";
+	warn "Could not compute tree ingroup\n";
+	return undef;
     }
 
     my $max_genes = 5;
@@ -669,27 +670,26 @@ sub compute_tree
 	    "--genomeIdsFile", $ingroup_file);
     print "@cmd\n";
     my $rc = system(@cmd);
-    if ($rc != 0)
+    my $nexus_file = "$tree_dir/detail_files/codontree.nex";
+
+    my $have_tree;
+    if ($rc != 0 || !-f $nexus_file)
     {
-	die "Error creating tree\n";
+	warn "Error creating tree\n";
+	return undef;
     }
 
     #
     # We have our tree; use figtree to render SVG.
     #
-    
-    my $nexus_file = "$tree_dir/detail_files/codontree.nex";
-    if (! -f $nexus_file)
-    {
-	die "Codon tree $nexus_file does not exist";
-    }
 
     $tree_svg = "CodonTree.svg";
     @cmd = ("figtree", "-graphic", "SVG", $nexus_file, $tree_svg);
     $rc = system(@cmd);
     if ($rc != 0)
     {
-	die "Figtree failed with $rc: @cmd\n";
+	warn "Figtree failed with $rc: @cmd\n";
+	return undef;
     }
 
     return($tree_svg,
