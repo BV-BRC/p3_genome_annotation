@@ -174,6 +174,8 @@ sub run_pipeline
     chdir($out_dir);
     
     my $result = $self->impl->run_pipeline($genome, $workflow);
+
+    $self->app->write_block("genome_id", $result->{id} . "\n");
     
     chdir($here);
     my $output_folder = $self->app->result_folder();
