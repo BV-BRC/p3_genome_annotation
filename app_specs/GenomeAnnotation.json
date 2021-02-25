@@ -206,6 +206,14 @@
       "desc": "If enabled, run quality analysis on genome",
       "type": "bool"
     },
+      {
+	  "id": "assembly_output",
+	  "label": "Workspace path holding assembly output for this genome",
+	  "desc": "Workspace path holding assembly output for this genome",
+	  "required": 0,
+	  "default": null,
+	  "type": "folder"
+      },
     {
       "id": "custom_pipeline",
       "label": "Customize the RASTtk pipeline",

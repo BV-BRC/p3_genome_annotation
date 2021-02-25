@@ -230,10 +230,18 @@ sub process_genome
     $core->impl->add_contigs($genome, \@contigs);
 
     local $Bio::KBase::GenomeAnnotation::Service::CallContext = $core->ctx;
-    my $result;
     #
-    # Run pipeline and scikit analysis inside eval to trap errors so we can
-    # kill the checkm if need be.
+    # We stash a copy of the parameters for those methods that
+    # need to dip into them for special processing.
+    #
+    $core->ctx->{params} = $params;
+    
+    my $result;
+
+    #
+    # Set overrides. This was the method used before we stashed
+    # params in the context; unclear if this is better or worse from
+    # an engineering perspective.
     #
     my $override;
     if (my $ref = $params->{reference_genome_id})
