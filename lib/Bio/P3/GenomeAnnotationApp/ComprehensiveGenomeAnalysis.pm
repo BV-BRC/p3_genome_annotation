@@ -9,6 +9,7 @@ package Bio::P3::GenomeAnnotationApp::ComprehensiveGenomeAnalysis;
 
 use Bio::KBase::AppService::AssemblyParams;
 use Bio::KBase::AppService::Client;
+use Bio::KBase::AppService::AppSpecs;
 
 use File::Slurp;
 use P3DataAPI;
@@ -705,27 +706,14 @@ sub compute_tree
 sub find_app_spec
 {
     my($self, $app) = @_;
-    
-    my $top = $ENV{KB_TOP};
-    my $specs_deploy = "$top/services/app_service/app_specs";
-    my $specs_dev = "$top/modules/app_service/app_specs";
-    my $specs;
-    
-    if (-d $specs_deploy)
-    {
-	$specs = $specs_deploy
-    }
-    elsif (-d $specs_dev)
-    {
-	$specs = $specs_dev
-    }
-    else
-    {
-	die "cannot find specs file in $specs_deploy or $specs_dev\n";
-    }
-    my $app_spec = "$specs/$app.json";
-    -f $app_spec or die "Spec file $app_spec does not exist\n";
-    return $app_spec;
+
+
+    my $specs = Bio::KBase::AppService::AppSpecs->new;
+
+    my($spec, $spec_file) = $specs->find($app);
+
+    return $spec_file;
+
 }
 
 1;
