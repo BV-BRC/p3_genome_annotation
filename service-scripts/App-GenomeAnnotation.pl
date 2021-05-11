@@ -100,6 +100,22 @@ sub process_genome
     my $user_id = $core->user_id;
 
     #
+    # If we are missing domain and/or genetic code, look up from taxonomy.
+    #
+    print Dumper($params);
+    if (!$params->{domain} ||
+	$params->{domain} eq 'auto' ||
+	!$params->{code})
+    {
+	my $api = P3DataAPI->new();
+	my $def = $api->get_taxon_metadata($params->{taxonomy_id});
+	print Dumper($def);
+	$params->{domain} = $def->{domain} if $def->{domain};
+	$params->{code} = $def->{genetic_code} if $def->{genetic_code};
+    }
+	
+    print Dumper($params);
+    #
     # Construct genome object metadata and create a new genome object.
     #
 
