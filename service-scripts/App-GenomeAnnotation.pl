@@ -102,13 +102,14 @@ sub process_genome
     #
     # If we are missing domain and/or genetic code, look up from taxonomy.
     #
+    my $api = P3DataAPI->new();
+    my $def = $api->get_taxon_metadata($params->{taxonomy_id});
+
     print Dumper($params);
     if (!$params->{domain} ||
 	$params->{domain} eq 'auto' ||
 	!$params->{code})
     {
-	my $api = P3DataAPI->new();
-	my $def = $api->get_taxon_metadata($params->{taxonomy_id});
 	print Dumper($def);
 	$params->{domain} = $def->{domain} if $def->{domain};
 	$params->{code} = $def->{genetic_code} if $def->{genetic_code};
@@ -123,6 +124,7 @@ sub process_genome
 	scientific_name => $params->{scientific_name},
 	genetic_code => $params->{code},
 	domain => $params->{domain},
+	($def->{taxon_lineage} ? (ncbi_lineage => $def->{taxon_lineage}) : ()),
 	($params->{taxonomy_id} ? (ncbi_taxonomy_id => $params->{taxonomy_id}) : ()),
 	($user_id ? (owner => $user_id) : ()),
 
