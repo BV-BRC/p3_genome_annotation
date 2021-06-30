@@ -32,6 +32,7 @@ my $ws = Bio::P3::Workspace::WorkspaceClientExt->new;
 my $json = JSON::XS->new->pretty->canonical;
 my $app = "GenomeAnnotationGenbank";
 my $app_spec = find_app_spec($app);
+my $log_dir = abs_path($opt->log_dir);
 
 my $stat = $ws->stat($output_path);
 
@@ -137,7 +138,7 @@ pareach \@work, sub {
     close($ptmp);
     run(["cat", "$ptmp"]);
 
-    my $log_base = $opt->log_dir . "/$params->{output_file}";
+    my $log_base = "$log_dir/$params->{output_file}";
     my $cmd = ["App-$app", "xx", $app_spec, "$ptmp"];
 
     print STDERR "@$cmd\n";
