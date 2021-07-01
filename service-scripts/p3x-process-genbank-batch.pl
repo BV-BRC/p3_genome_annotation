@@ -154,7 +154,7 @@ pareach \@work, sub {
     print STDERR "Elapsed for $file: $elap\n";
     write_file("$log_base.elapsed", "$elap\n");
     
-}, { Num_Workers => $opt->parallel };
+}, { Max_Workers => $opt->parallel };
 
 
 sub find_app_spec
