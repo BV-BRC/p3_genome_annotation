@@ -20,6 +20,7 @@ my($opt, $usage) = describe_options("%c %o output-path genbank-file [genbank-fil
 				    ["public", "Mark genomes public"],
 				    ["overwrite", "Overwrite existing workspace files"],
 				    ["indexing-url=s", "Indexing url"],
+				    ["no-index", "Do not index this genome. If this option is selected the genome will not be visible on the PATRIC website."],
 				    ["help|h", "Show this help message"]);
 print($usage->text) if $opt->help;
 die($usage->text) if @ARGV < 2;
@@ -87,6 +88,7 @@ my $base_params = {
     queue_nowait => 1,
     (defined($workflow) ? (workflow => $workflow_txt) : ()),
     ($opt->indexing_url ? (indexing_url => $opt->indexing_url) : ()),
+    ($opt->no_index ? (skip_indexing => 1) : ()),
     ($opt->public ? (public => 1) : ()),
 };
 

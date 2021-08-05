@@ -247,7 +247,10 @@ sub process_genome
     my($gto_path, $index_queue_id) = $core->write_output($genome,
 							 $result, {},
 							 "$gb_file",
-							 $params->{public} ? 1 : 0, $params->{queue_nowait} ? 1 : 0);
+							 $params->{public} ? 1 : 0,
+							 $params->{queue_nowait} ? 1 : 0,
+							 $params->{skip_indexing} ? 1 : 0);
+							 
 
     $core->ctx->stderr(undef);
     return {
