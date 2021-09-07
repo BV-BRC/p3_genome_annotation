@@ -13,8 +13,10 @@ use Proc::ParallelLoop;
 use IPC::Run qw(run);
 use Time::HiRes 'gettimeofday';
 
-my($opt, $usage) = describe_options("%c %o output-path genbank-file [genbank-file ...]",
+my($opt, $usage) = describe_options("%c %o output-path [genbank-file ...]",
 				    ["parallel|j=i", "Run this many parallel threads", { default => 1 }],
+				    ["rerun", "If set, we are rerunning a batch. Don't copy input and check for output before running"],
+				    ["gb-files=s", "Use this file for list of files to run"],
 				    ["workflow-file=s", "Workflow definition"],
 				    ["log-dir=s", "Log directory", { default => "." }],
 				    ["public", "Mark genomes public"],
@@ -23,7 +25,7 @@ my($opt, $usage) = describe_options("%c %o output-path genbank-file [genbank-fil
 				    ["no-index", "Do not index this genome. If this option is selected the genome will not be visible on the PATRIC website."],
 				    ["help|h", "Show this help message"]);
 print($usage->text) if $opt->help;
-die($usage->text) if @ARGV < 2;
+die($usage->text) if @ARGV < 1;
 
 my $output_path = shift;
 
@@ -95,7 +97,21 @@ my $base_params = {
 my $errs;
 my @work;
 
-for my $gb (@ARGV)
+my @gb_files = @ARGV;
+if ($opt->gb_files)
+{
+    open(FS, "<", $opt->gb_files) or die "cannot open " . $opt->gb_files . ": $!\n";
+    while (<FS>)
+    {
+	if (/(\S+)/)
+	{
+	    push(@gb_files, $1);
+	}
+    }
+    close(FS);
+}
+
+for my $gb (@gb_files)
 {
     if (! -s $gb)
     {
@@ -120,16 +136,42 @@ pareach \@work, sub {
     my($work) = @_;
     my($file, $params) = @$work;
 
-    my $work_dir = File::Temp->newdir(CLEANUP => 0);
-    my $here = getcwd();
-    print STDERR "Working in $work_dir\n";
-    chdir($work_dir) or die "Cannot chdir $work_dir: $!";
-
+    if ($opt->rerun)
+    {
+	#
+	# Check for existence of output genome file.
+	#
+	my $gfile = "$params->{output_path}/.$params->{output_file}/$params->{output_file}.genome";
+	my $s = eval { $ws->stat($gfile); } ;
+	if ($s)
+	{
+	    if ($s->size > 0)
+	    {
+		print "$gfile exists, skipping\n";
+		return;
+	    }
+	}
+	else
+	{
+	    print "Running for $gfile\n";
+	}
+	    
+    }
     eval {
-	$ws->save_file_to_file($file, { genbank_batch => time },
-			       $params->{genbank_file},
-			       "contigs", $opt->overwrite ? 1 : 0, 1);
+
+	my $s = eval { $ws->stat($params->{genbank_file}); };
+	if ($s && $s->size)
+	{
+	    print "Already have $params->{genbank_file}\n";
+	}
+	else
+	{
+	    $ws->save_file_to_file($file, { genbank_batch => time },
+				   $params->{genbank_file},
+				   "contigs", $opt->overwrite ? 1 : 0, 1);
+	}
     };
+	
     if ($@)
     {
 	die "Failed to upload $file to $params->{genbank_file}: $@";
@@ -144,14 +186,20 @@ pareach \@work, sub {
     my $cmd = ["App-$app", "xx", $app_spec, "$ptmp"];
 
     print STDERR "@$cmd\n";
+    my $work_dir = File::Temp->newdir(CLEANUP => 1);
+    # my $here = getcwd();
+    # print STDERR "Working in $work_dir\n";
+    # chdir($work_dir) or die "Cannot chdir $work_dir: $!";
+
     my $start = gettimeofday;
     my $ok = run($cmd,
+		 init => sub { chdir("$work_dir"); },
 		 ">", "$log_base.out",
 		 "2>", "$log_base.err",
 		);
     my $end = gettimeofday;
     my $elap = $end - $start;
-    chdir($here);
+    # chdir($here);
     $ok or die "Failed running $file: $? $!\n";
     print STDERR "Elapsed for $file: $elap\n";
     write_file("$log_base.elapsed", "$elap\n");
