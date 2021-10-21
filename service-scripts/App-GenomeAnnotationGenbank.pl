@@ -51,7 +51,7 @@ sub preflight_cb
     #
     return {
 	cpu => 2,
-	memory => "8G",
+	memory => "16G",
 	runtime => int($time),
 	storage => 10 * $res->size,
     };
