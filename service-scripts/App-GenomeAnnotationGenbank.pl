@@ -46,12 +46,18 @@ sub preflight_cb
     my $time = $res->size / 500;
     $time = 3600 if $time < 3600;
 
+    my $ram = "16G";
+    if ($res->size > 10_000_000)
+    {
+	$ram = "128G";
+    }
+
     #
     # Request 8 cpus for some of the fatter bits of the compute.
     #
     return {
 	cpu => 2,
-	memory => "16G",
+	memory => $ram,
 	runtime => int($time),
 	storage => 10 * $res->size,
     };
