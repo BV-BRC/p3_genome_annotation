@@ -283,7 +283,7 @@ sub import_workflow
 		},
 	      { name => 'renumber_features' },
 	      { name => 'annotate_special_proteins' },
-	      { name => 'annotate_families_figfam_v1' },
+	      # { name => 'annotate_families_figfam_v1' },
 	      { name => 'annotate_families_patric' },
 	      { name => 'annotate_null_to_hypothetical' },
 	      { name => 'project_subsystems', failure_is_not_fatal => 1 },
@@ -291,6 +291,22 @@ sub import_workflow
 	      { name => 'annotate_strain_type_MLST' },
 	      { name => 'compute_genome_quality_control' },
 	      { name => 'evaluate_genome', failure_is_not_fatal => 1, evaluate_genome_parameters => {} },
+		 );
+    my $workflow = { stages => \@stages };
+
+    return $workflow;
+}
+
+sub raw_import_workflow
+{
+    my($self) = @_;
+
+    my @stages = (
+	      { name => 'propagate_genbank_feature_metadata',
+		    propagate_genbank_feature_metadata_parameters => {} },
+	      { name => 'renumber_features' },
+	      { name => 'annotate_families_patric' },
+	      { name => 'annotate_null_to_hypothetical' },
 		 );
     my $workflow = { stages => \@stages };
 

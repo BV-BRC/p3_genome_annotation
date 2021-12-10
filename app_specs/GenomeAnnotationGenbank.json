@@ -152,6 +152,22 @@
       "type": "bool"
     },
     {
+      "id": "raw_import_only",
+      "label": "Raw import only",
+      "required": 0,
+      "default": null,
+      "desc": "Import this genome (do not reannotate gene calls or protein functions or do any of the normal postprocessing)",
+      "type": "bool"
+    },
+    {
+      "id": "skip_contigs",
+	"label": "Skip contigs on import",
+      "required": 0,
+      "default": null,
+	"desc": "Do not import contigs",
+      "type": "bool"
+    },
+    {
       "id": "fix_errors",
       "label": "Automatically fix errors?",
       "required": 0,

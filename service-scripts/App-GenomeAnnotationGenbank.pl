@@ -140,10 +140,16 @@ sub process_genome
 	$gb_file = $gb_temp;
     }
     
-    my $gb_data = read_file($genbank_data_fh);
+#     my $gb_data = read_file($genbank_data_fh);
+#     close($genbank_data_fh);
+
+    #
+    # Use the hidden impl method so that we can pass the filehandle.
+    # Published interface expects a string.
+    #
+    my $genome = $core->impl->_create_genome_from_genbank_impl($genbank_data_fh, $params->{skip_contigs} ? 1 : 0);
+    $genome = $genome->prepare_for_return();
     close($genbank_data_fh);
-    
-    my $genome = $core->impl->create_genome_from_genbank($gb_data);
 
     #
     # Overrides from optional parameters.
@@ -230,6 +236,14 @@ sub process_genome
 	    die "Invalid input: workflow and import_only may not both be specified";
 	}
 	$workflow = JSON::XS->new->pretty(1)->encode($core->import_workflow());
+    }
+    elsif ($params->{raw_import_only})
+    {
+	if ($workflow)
+	{
+	    die "Invalid input: workflow and import_only may not both be specified";
+	}
+	$workflow = JSON::XS->new->pretty(1)->encode($core->raw_import_workflow());
     }
 
     my $pipeline_override;
