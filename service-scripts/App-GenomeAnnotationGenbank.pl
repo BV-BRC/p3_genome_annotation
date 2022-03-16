@@ -276,6 +276,7 @@ sub process_genome
     return {
 	gto_path => $gto_path,
 	index_queue_id => $index_queue_id,
+	genome_id => $genome->{id},
     };
 
 }
