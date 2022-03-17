@@ -269,23 +269,28 @@
       "type": "int"
     },
     {
-      "default": 11,
+      "default": 0,
       "desc": "Genetic code used in translation of DNA sequences",
       "enum": [
-        "11",
-        "4"
+        0,
+        1,
+        4,
+        11,
+        25
       ],
       "id": "code",
       "label": "Genetic Code",
       "required": 1,
-      "type": "enum"
+      "type": "int"
     },
     {
-      "default": "Bacteria",
+      "default": "auto",
       "desc": "Domain of the submitted genome",
       "enum": [
         "Bacteria",
-        "Archaea"
+        "Archaea",
+        "Viruses",
+        "auto"
       ],
       "id": "domain",
       "label": "Domain",
