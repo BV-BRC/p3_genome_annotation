@@ -1,0 +1,105 @@
+{
+   "stages" : [
+      {
+         "name" : "call_features_rRNA_SEED"
+      },
+      {
+         "name" : "call_features_tRNA_trnascan"
+      },
+      {
+         "name" : "call_features_repeat_region_SEED",
+         "repeat_region_SEED_parameters" : {}
+      },
+      {
+         "failure_is_not_fatal" : 1,
+         "name" : "call_selenoproteins"
+      },
+      {
+         "failure_is_not_fatal" : 1,
+         "name" : "call_pyrrolysoproteins"
+      },
+      {
+         "condition" : "$genome->{scientific_name} =~ /^Streptococcus\\s/",
+         "name" : "call_features_strep_suis_repeat"
+      },
+      {
+         "condition" : "$genome->{scientific_name} =~ /^Streptococcus\\s/",
+         "name" : "call_features_strep_pneumo_repeat"
+      },
+      {
+         "failure_is_not_fatal" : 1,
+         "name" : "call_features_crispr"
+      },
+      {
+         "name" : "call_features_CDS_prodigal"
+      },
+      {
+         "failure_is_not_fatal" : 1,
+         "glimmer3_parameters" : {},
+         "name" : "call_features_CDS_glimmer3"
+      },
+      {
+         "name" : "prune_invalid_CDS_features",
+         "prune_invalid_CDS_features_parameters" : {
+            "max_homopolymer_frequency" : 0.9,
+            "minimum_contig_length" : 0
+         }
+      },
+      {
+         "kmer_v2_parameters" : {},
+         "name" : "annotate_proteins_kmer_v2"
+      },
+      {
+         "name" : "annotate_proteins_phage",
+         "phage_parameters" : {
+            "annotate_null_only" : 1
+         }
+      },
+      {
+         "name" : "annotate_proteins_similarity",
+         "similarity_parameters" : {
+            "annotate_null_only" : 1
+         }
+      },
+      {
+         "name" : "propagate_genbank_feature_metadata",
+         "propagate_genbank_feature_metadata_parameters" : {}
+      },
+      {
+         "name" : "resolve_overlapping_features",
+         "resolve_overlapping_features_parameters" : {}
+      },
+      {
+         "condition" : "scalar @{$genome->{contigs}} != grep { $_->{replicon_type} eq \"plasmid\" } @{$genome->{contigs}}",
+         "failure_is_not_fatal" : 1,
+         "name" : "classify_amr"
+      },
+      {
+         "name" : "renumber_features"
+      },
+      {
+         "name" : "annotate_special_proteins"
+      },
+      {
+         "name" : "annotate_families_patric"
+      },
+      {
+         "name" : "annotate_null_to_hypothetical"
+      },
+      {
+         "failure_is_not_fatal" : 1,
+         "name" : "project_subsystems"
+      },
+      {
+         "name" : "annotate_strain_type_MLST"
+      },
+      {
+         "name" : "compute_genome_quality_control"
+      },
+      {
+         "evaluate_genome_parameters" : {},
+         "failure_is_not_fatal" : 1,
+         "name" : "evaluate_genome"
+      }
+   ]
+}
