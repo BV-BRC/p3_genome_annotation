@@ -163,8 +163,12 @@ sub run
     #
     # We have our base annotation completed. Run our report.
     #
+    # The report generation returns gto path and genome ID suitable for returning from the app.
+    #
     print "Generate report\n";
-    $self->generate_report();
+    my $ret = $self->generate_report();
+
+    return $ret;
 }
 
 #
@@ -589,6 +593,10 @@ sub generate_report
 	}
 
     }
+    return {
+	gto_path => $saved_genome,
+	genome_id => $gto->{id},
+    };
     
 }
 
