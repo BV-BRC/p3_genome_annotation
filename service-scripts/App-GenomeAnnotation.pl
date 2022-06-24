@@ -50,7 +50,7 @@ sub preflight
     # time of 60 minutes (to account for non-annotation portions).
     #
     my $time = $res->size / 500;
-    $time = 3600 if $time < 3600;
+    $time = 7200 if $time < 7200;
 
     #
     # Request 8 cpus for some of the fatter bits of the compute.
