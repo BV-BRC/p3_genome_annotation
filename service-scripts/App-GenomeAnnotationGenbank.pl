@@ -44,7 +44,7 @@ sub preflight_cb
     # time of 5 minutes.
     #
     my $time = $res->size / 500;
-    $time = 3600 if $time < 3600;
+    $time = 7200 if $time < 7200;
 
     my $ram = "16G";
     if ($res->size > 10_000_000)
