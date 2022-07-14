@@ -682,9 +682,14 @@ sub compute_tree
     my $nexus_file = "$tree_dir/detail_files/codontree.nex";
 
     my $have_tree;
-    if ($rc != 0 || !-f $nexus_file)
+    if ($rc != 0)
     {
-	warn "Error creating tree\n";
+	warn "Codon tree execution failed with rc $rc\n";
+	return undef;
+    }
+    if (! -f $nexus_file)
+    {
+	warn "Codon tree execution did not write nexus file $nexus_file\n";
 	return undef;
     }
 
