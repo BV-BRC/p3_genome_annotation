@@ -498,8 +498,15 @@ sub submit_load_files
     }
 
     my $json = JSON->new->allow_nonref;
-    my $data = $json->decode($stdout);
-
+    my $data;
+    eval {
+	$data = $json->decode($stdout);
+    };
+    if ($@)
+    {
+	die "Submission of indexing data failed ($@) with invalid returned data '$stdout'\n";
+    }
+	
     my $queue_id = $data->{id};
 
     print "Submitted indexing job $queue_id\n";
@@ -524,7 +531,14 @@ sub submit_load_files
 	{
 	    my $state = $status->{state};
 	    print STDERR "status for $queue_id (state=$state): " . Dumper($status);
-	    if ($state ne 'queued')
+	    my $complete = ($state ne 'queued');
+	    #
+	    # We are running the indexer once an hour, so we finish up immediately here
+	    # no matter the state returned from the indexer.
+	    #
+	    $complete = 1;	
+
+	    if ($complete)
 	    {
 		print STDERR "Finishing with state $state\n";
 		last;

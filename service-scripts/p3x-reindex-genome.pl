@@ -19,9 +19,12 @@ use Bio::P3::Workspace::WorkspaceClientExt;
 
 my($opt, $usage) = describe_options("%c %o ws-path",
 				    ["execute" => "Perform the reload"],
+				    ['skip-file=s@', "Skip loading the given file", { default => [] }],
 				    ["help|h" => "Show this help message"]);
 print($usage->text), exit 1 if $opt->help;
 die($usage->text) if @ARGV != 1;
+
+my %skip = map { $_ => 1 } @{$opt->skip_file};
 
 my $ws_path = shift;
 
@@ -88,9 +91,16 @@ for my $tup (@files)
     my $path = "$tmp/$file";
     if (-f $path)
     {
+	if ($skip{$key})
+	{
+	    print STDERR "Skipping $key - $path\n";
+	    next;
+	}
 	push(@opts, "-F", "$key=\@$path");
     }
 }
+
+push(@opts, "-D", "-", "-v");
 
 push(@opts, $genome_url);
 
@@ -98,6 +108,7 @@ push(@opts, $genome_url);
 
 my($stdout, $stderr);
 
+print Dumper(\@opts);
 my $ok = run(["curl", @opts], '>', \$stdout);
 if (!$ok)
 {
@@ -105,7 +116,15 @@ if (!$ok)
 }
 
 my $json = JSON->new->allow_nonref;
-my $data = $json->decode($stdout);
+
+my $data;
+eval {
+    $data = $json->decode($stdout);
+};
+if ($@)
+{
+    die "Bad submission - output did not parse: $@\n$stdout\n";
+}
 
 my $queue_id = $data->{id};
 
