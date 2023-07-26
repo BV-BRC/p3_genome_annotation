@@ -136,6 +136,17 @@ sub run_pipeline
     }
 
     #
+    # Require that we include compute_genome_quality_control in the pipeline.
+    # If missing, add it to the end.
+    #
+    my @have_qc = grep { $_->{name} eq 'compute_genome_quality_control' } @{$workflow->{stages}};
+    if (!@have_qc)
+    {
+	print STDERR "Adding compute_genome_quality_control to workflow\n";
+	push(@{$workflow->{stages}}, { name => 'compute_genome_quality_control' });
+    }
+
+    #
     # Clone the workflow document and apply parameter overrides.
     #
     if ($workflow_parameter_override)
