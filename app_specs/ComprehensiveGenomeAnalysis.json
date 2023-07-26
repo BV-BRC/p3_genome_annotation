@@ -66,8 +66,8 @@
             "infer",
             "illumina",
             "pacbio",
-            "nanopore",
-            "iontorrent"
+            "pacbio_hifi",
+            "nanopore"
           ],
           "id": "platform",
           "label": "Sequencing Platform",
@@ -126,8 +126,8 @@
             "infer",
             "illumina",
             "pacbio",
-            "nanopore",
-            "iontorrent"
+            "pacbio_hifi",
+            "nanopore"
           ],
           "id": "platform",
           "label": "Sequencing Platform",
@@ -167,7 +167,8 @@
         "spades",
         "meta-spades",
         "plasmid-spades",
-        "single-cell"
+        "single-cell",
+        "flye"
       ],
       "id": "recipe",
       "label": "Assembly recipe",
