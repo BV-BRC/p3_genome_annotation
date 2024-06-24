@@ -1,9 +1,11 @@
 
-# Application specfication: GenomeAnnotationGenbankTest
+# Application specification: GenomeAnnotationGenbankTest
 
 This is the application specification for service with identifier GenomeAnnotationGenbankTest.
 
-The backend script implementing the application is [App-GenomeAnnotationGenbankTest](service-scripts/App-GenomeAnnotationGenbankTest.pm).
+The backend script implementing the application is [App-GenomeAnnotationGenbankTest](../service-scripts/App-GenomeAnnotationGenbankTest.pm).
+
+The raw JSON file for this specification is [GenomeAnnotationGenbankTest.json](GenomeAnnotationGenbankTest.json).
 
 This service performs the following task:   Calls genes and functionally annotate input contig set.
 
