@@ -11,15 +11,15 @@ It takes the following parameters:
 
 | id | label | type | required | default value |
 | -- | ----- | ---- | -------- | ------------ |
-| genbank_file | Genbank file | WS: genbank_file  | YES |  |
-| public | Public | bool  | NO | 0 |
-| queue_nowait | Don't wait on indexing queue | bool  | NO | 0 |
-| output_path | Output Folder | folder  | NO |  |
-| output_file | File Basename | wsid  | NO |  |
-| fix_errors | Automatically fix errors? | bool  | NO |  |
-| fix_frameshifts | Fix frameshifts? | bool  | NO |  |
-| enable_debug | Enable debug? | bool  | NO |  |
-| verbose_level | Set verbose level | int  | NO |  |
-| disable_replication | Disable replication? | bool  | NO |  |
-| custom_pipeline | Customize the RASTtk pipeline | group  | NO |  |
+| genbank_file | Genbank file | WS: genbank_file  | :heavy_check_mark: |  |
+| public | Public | bool  |  | 0 |
+| queue_nowait | Don't wait on indexing queue | bool  |  | 0 |
+| output_path | Output Folder | folder  |  |  |
+| output_file | File Basename | wsid  |  |  |
+| fix_errors | Automatically fix errors? | bool  |  |  |
+| fix_frameshifts | Fix frameshifts? | bool  |  |  |
+| enable_debug | Enable debug? | bool  |  |  |
+| verbose_level | Set verbose level | int  |  |  |
+| disable_replication | Disable replication? | bool  |  |  |
+| custom_pipeline | Customize the RASTtk pipeline | group  |  |  |
 

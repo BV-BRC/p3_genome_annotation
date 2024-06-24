@@ -11,30 +11,30 @@ It takes the following parameters:
 
 | id | label | type | required | default value |
 | -- | ----- | ---- | -------- | ------------ |
-| contigs | Contig file | WS: Contigs  | YES |  |
-| scientific_name | Scientific Name | string  | YES |  |
-| taxonomy_id | NCBI Taxonomy ID | int  | NO |  |
-| code | Genetic Code | int  | YES | 0 |
-| domain | Domain | enum  | YES | auto |
-| public | Public | bool  | NO | 0 |
-| queue_nowait | Don't wait on indexing queue | bool  | NO | 0 |
-| skip_indexing | Don't index genome | bool  | NO | 0 |
-| skip_workspace_output | Don't write to workspace | bool  | NO | 0 |
-| output_path | Output Folder | folder  | NO |  |
-| output_file | File Basename | wsid  | NO |  |
-| reference_genome_id | Reference genome ID | string  | NO |  |
-| reference_virus_name | Reference virus name | string  | NO |  |
-| container_id | (Internal) Container to use for this run | string  | NO |  |
-| indexing_url | (Internal) Override Data API URL for use in indexing | string  | NO |  |
-| _parent_job | (Internal) Parent job for this annotation | string  | NO |  |
-| fix_errors | Automatically fix errors? | bool  | NO |  |
-| fix_frameshifts | Fix frameshifts? | bool  | NO |  |
-| enable_debug | Enable debug? | bool  | NO |  |
-| verbose_level | Set verbose level | int  | NO |  |
-| workflow | Custom workflow | string  | NO |  |
-| recipe | Annotation recipe | string  | NO |  |
-| disable_replication | Disable replication? | bool  | NO |  |
-| analyze_quality | Enable quality analysis of genome | bool  | NO |  |
-| assembly_output | Workspace path holding assembly output for this genome | folder  | NO |  |
-| custom_pipeline | Customize the RASTtk pipeline | group  | NO |  |
+| contigs | Contig file | WS: Contigs  | :heavy_check_mark: |  |
+| scientific_name | Scientific Name | string  | :heavy_check_mark: |  |
+| taxonomy_id | NCBI Taxonomy ID | int  |  |  |
+| code | Genetic Code | int  | :heavy_check_mark: | 0 |
+| domain | Domain | enum  | :heavy_check_mark: | auto |
+| public | Public | bool  |  | 0 |
+| queue_nowait | Don't wait on indexing queue | bool  |  | 0 |
+| skip_indexing | Don't index genome | bool  |  | 0 |
+| skip_workspace_output | Don't write to workspace | bool  |  | 0 |
+| output_path | Output Folder | folder  |  |  |
+| output_file | File Basename | wsid  |  |  |
+| reference_genome_id | Reference genome ID | string  |  |  |
+| reference_virus_name | Reference virus name | string  |  |  |
+| container_id | (Internal) Container to use for this run | string  |  |  |
+| indexing_url | (Internal) Override Data API URL for use in indexing | string  |  |  |
+| _parent_job | (Internal) Parent job for this annotation | string  |  |  |
+| fix_errors | Automatically fix errors? | bool  |  |  |
+| fix_frameshifts | Fix frameshifts? | bool  |  |  |
+| enable_debug | Enable debug? | bool  |  |  |
+| verbose_level | Set verbose level | int  |  |  |
+| workflow | Custom workflow | string  |  |  |
+| recipe | Annotation recipe | string  |  |  |
+| disable_replication | Disable replication? | bool  |  |  |
+| analyze_quality | Enable quality analysis of genome | bool  |  |  |
+| assembly_output | Workspace path holding assembly output for this genome | folder  |  |  |
+| custom_pipeline | Customize the RASTtk pipeline | group  |  |  |
 
