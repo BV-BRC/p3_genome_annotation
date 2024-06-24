@@ -1,13 +1,11 @@
 
-# Application specficiation: ComprehensiveGenomeAnalysis
+# Application specfication: ComprehensiveGenomeAnalysis
 
 This is the application specification for service with identifier ComprehensiveGenomeAnalysis.
 
 The backend script implementing the application is [App-ComprehensiveGenomeAnalysis](service-scripts/App-ComprehensiveGenomeAnalysis.pm).
 
-This service does the following:
-
-   Analyze a genome from reads or contigs, generating a detailed analysis report.
+This service performs the following task:   Analyze a genome from reads or contigs, generating a detailed analysis report.
 
 It takes the following parameters:
 
