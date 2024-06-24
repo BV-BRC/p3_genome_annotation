@@ -3,7 +3,7 @@
 
 This is the application specification for service with identifier GenomeAnnotation.
 
-The backend script implementing the application is [App-GenomeAnnotation](../service-scripts/App-GenomeAnnotation.pm).
+The backend script implementing the application is [App-GenomeAnnotation.pl](../service-scripts/App-GenomeAnnotation.pl).
 
 The raw JSON file for this specification is [GenomeAnnotation.json](GenomeAnnotation.json).
 

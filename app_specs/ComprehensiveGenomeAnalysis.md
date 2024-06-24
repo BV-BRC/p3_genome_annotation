@@ -3,7 +3,7 @@
 
 This is the application specification for service with identifier ComprehensiveGenomeAnalysis.
 
-The backend script implementing the application is [App-ComprehensiveGenomeAnalysis](../service-scripts/App-ComprehensiveGenomeAnalysis.pm).
+The backend script implementing the application is [App-ComprehensiveGenomeAnalysis.pl](../service-scripts/App-ComprehensiveGenomeAnalysis.pl).
 
 The raw JSON file for this specification is [ComprehensiveGenomeAnalysis.json](ComprehensiveGenomeAnalysis.json).
 
