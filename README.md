@@ -29,6 +29,12 @@ This module is a component of the BV-BRC build system. It is designed to fit int
 `dev_container` infrastructure which manages development and production deployment of
 the components of the BV-BRC. More documentation is available [here](https://github.com/BV-BRC/dev_container/tree/master/README.md).
 
+The code in this module provides the BV-BRC application service wrapper scripts for the genome annotation service as well
+as some backend utilities:
+
+| Script name | Purpose |
+| ----------- | ------- |
+| [App-ComprehensiveGenomeAnnotation.pl](service-scripts/App-ComprehensiveGenomeAnnotation.pl) | App script for the comprehnsive genome annotation service |
 
 ## See also
 
