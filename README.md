@@ -40,11 +40,9 @@ the components of the BV-BRC. More documentation is available [here](https://git
 
 ## References
 
-References
-
 Aziz, R. K. et al. The RAST Server: rapid annotations using subsystems technology. BMC genomics 9, 75 (2008).
 
-https://github.com/JCVenterInstitute/VIGOR4.
+VIGOR4, https://github.com/JCVenterInstitute/VIGOR4.
 
 McNair, K. et al. in Bacteriophages 231-238 (Springer, 2018).
 
