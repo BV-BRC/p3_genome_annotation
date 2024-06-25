@@ -15,19 +15,17 @@ using BV-BRC analysis tools and services, e.g., Phylogenetic Tree,
 Genome Alignment, Protein Family Sorter, Comparative Pathway Viewer,
 Similar Genome Finder.
 
-This module defines the [BV-BRC](https://bv-brc.org) service script for the genome annotation services.
-
-There are three distinct application types defined here:
-
-1. [GenomeAnnotation](app_specs/GenomeAnnotation.md): Service that provides the backend for the BV-BRC web interface; it takes contigs as input.
-2. [GenomeAnnotationGenbank](app_specs/GenomeAnnotationGenbank.md): Currently only available via the `p3-submit-genome-annotation` command-line script; allows the processing of Genbank files as input.
-3. [ComprehensiveGenomeAnalysis](app_specs/ComprehensiveGenomeAnalysis.md): Provides the backend for the BV-BRC Comprehensive Genome Annotation service.
-
 ## About this module
 
 This module is a component of the BV-BRC build system. It is designed to fit into the
 `dev_container` infrastructure which manages development and production deployment of
 the components of the BV-BRC. More documentation is available [here](https://github.com/BV-BRC/dev_container/tree/master/README.md).
+
+There are three distinct application service specifications defined here:
+
+1. [GenomeAnnotation](app_specs/GenomeAnnotation.md): Service that provides the backend for the BV-BRC web interface; it takes contigs as input.
+2. [GenomeAnnotationGenbank](app_specs/GenomeAnnotationGenbank.md): Currently only available via the `p3-submit-genome-annotation` command-line script; allows the processing of Genbank files as input.
+3. [ComprehensiveGenomeAnalysis](app_specs/ComprehensiveGenomeAnalysis.md): Provides the backend for the BV-BRC Comprehensive Genome Annotation service.
 
 The code in this module provides the BV-BRC application service wrapper scripts for the genome annotation service as well
 as some backend utilities:
@@ -35,6 +33,10 @@ as some backend utilities:
 | Script name | Purpose |
 | ----------- | ------- |
 | [App-ComprehensiveGenomeAnalysis.pl](service-scripts/App-ComprehensiveGenomeAnalysis.pl) | App script for the [comprehnsive genome analysis service](https://www.bv-brc.org/docs/quick_references/services/comprehensive_genome_analysis_service.html) |
+| [App-GenomeAnnotation.pl](service-scripts/App-GenomeAnnotation.pl) | App script for the [genome annotation service](https://www.bv-brc.org/docs/quick_references/services/genome_annotation_service.html) |
+| [App-GenomeAnnotationGenbank.pl](service-scripts/App-GenomeAnnotationGenbank.pl) | App script for the [genome annotation service](https://www.bv-brc.org/docs/quick_references/services/genome_annotation_service.html) for use with genbank files |
+| [p3x-process-genbank-batch.pl](service-scripts/p3x-process-genbank-batch.pl) | (Experimental) Script for bulk processing of genbank batches |
+| [p3x-reindex-genome.pl](service-scripts/p3x-reindex-genome.pl) | (Experimental) Script to resubmit the Solr indexing data for a set of genomes |
 
 ## See also
 
