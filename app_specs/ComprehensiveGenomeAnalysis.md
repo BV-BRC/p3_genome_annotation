@@ -13,11 +13,11 @@ It takes the following parameters:
 
 | id | label | type | required | default value |
 | -- | ----- | ---- | :------: | ------------ |
-| Start of common parameters |
+| **Start of common parameters** |
 | input_type | Input Type | enum  | :heavy_check_mark: |  |
 | output_path | Output Folder | folder  | :heavy_check_mark: |  |
 | output_file | File Basename | wsid  | :heavy_check_mark: |  |
-| Start of assembly parameters |
+| **Start of assembly parameters** |
 | paired_end_libs |  | group  |  |  |
 | single_end_libs |  | group  |  |  |
 | srr_ids | SRR ID | string  |  |  |
@@ -29,7 +29,7 @@ It takes the following parameters:
 | min_contig_len | Minimal output contig length | int  |  | 300 |
 | min_contig_cov | Minimal output contig coverage | float  |  | 5 |
 | genome_size | Genome Size | string  |  | 5M |
-| Start of annotation parameters. Exactly one of reads, contigs, or genbank file input is required. |
+| **Start of annotation parameters. Exactly one of reads, contigs, or genbank file input is required.** |
 | gto | Preannotated genome object | WS: Genome  |  |  |
 | genbank_file | Genbank file | WS: genbank_file  |  |  |
 | contigs | Contig file | WS: Contigs  |  |  |
@@ -37,7 +37,7 @@ It takes the following parameters:
 | taxonomy_id | NCBI Taxonomy ID | int  |  |  |
 | code | Genetic Code | int  | :heavy_check_mark: | 0 |
 | domain | Domain | enum  | :heavy_check_mark: | auto |
-| Control parameters |
+| **Control parameters** |
 | public | Public | bool  |  | 0 |
 | queue_nowait | Don't wait on indexing queue | bool  |  | 0 |
 | skip_indexing | Don't index genome | bool  |  | 0 |
