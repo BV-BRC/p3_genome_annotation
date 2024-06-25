@@ -34,7 +34,7 @@ as some backend utilities:
 
 | Script name | Purpose |
 | ----------- | ------- |
-| [App-ComprehensiveGenomeAnalysis.pl](service-scripts/App-ComprehensiveGenomeAnalysis.pl) | App script for the [https://www.bv-brc.org/docs/quick_references/services/comprehensive_genome_analysis_service.html](comprehnsive genome analysis service) |
+| [App-ComprehensiveGenomeAnalysis.pl](service-scripts/App-ComprehensiveGenomeAnalysis.pl) | App script for the [comprehnsive genome analysis service](https://www.bv-brc.org/docs/quick_references/services/comprehensive_genome_analysis_service.html) |
 
 ## See also
 
