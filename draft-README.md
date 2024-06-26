@@ -21,7 +21,7 @@ This module provides the following application specfication(s):
 
 ## See also
 
-* [Genome Annotation Service Quick Reference](https://www.bv-brc.org/docs/quick_references/services/genome_annotation_service.html)
+* [Genome Annotation Service Quick References](https://www.bv-brc.org/docs/quick_references/services/genome_annotation_service.html)
 * [Genome Annotation Service](https://www.bv-brc.org/docs/https://bv-brc.org/app/Annotation.html)
 * [Genome Annotation Service Tutorial](https://www.bv-brc.org/docs//tutorial/genome_annotation/genome_annotation.html)
 
