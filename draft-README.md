@@ -12,8 +12,16 @@ This module is a component of the BV-BRC build system. It is designed to fit int
 `dev_container` infrastructure which manages development and production deployment of
 the components of the BV-BRC. More documentation is available [here](https://github.com/BV-BRC/dev_container/tree/master/README.md).
 
+This module provides the following application specfication(s):
+* [ComprehensiveGenomeAnalysis](app_specs/ComprehensiveGenomeAnalysis.md)
+* [GenomeAnnotation](app_specs/GenomeAnnotation.md)
+* [GenomeAnnotationGenbank](app_specs/GenomeAnnotationGenbank.md)
+* [GenomeAnnotationGenbankTest](app_specs/GenomeAnnotationGenbankTest.md)
+
+
 ## See also
 
+* [Genome Annotation Service Quick Reference](https://www.bv-brc.org/docs/quick_references/services/genome_annotation_service.html)
 * [Genome Annotation Service](https://www.bv-brc.org/docs/https://bv-brc.org/app/Annotation.html)
 * [Genome Annotation Service Tutorial](https://www.bv-brc.org/docs//tutorial/genome_annotation/genome_annotation.html)
 
