@@ -32,7 +32,7 @@ as some backend utilities:
 
 | Script name | Purpose |
 | ----------- | ------- |
-| [App-ComprehensiveGenomeAnalysis.pl](service-scripts/App-ComprehensiveGenomeAnalysis.pl) | App script for the [comprehnsive genome analysis service](https://www.bv-brc.org/docs/quick_references/services/comprehensive_genome_analysis_service.html) |
+| [App-ComprehensiveGenomeAnalysis.pl](service-scripts/App-ComprehensiveGenomeAnalysis.pl) | App script for the [comprehensive genome analysis service](https://www.bv-brc.org/docs/quick_references/services/comprehensive_genome_analysis_service.html) |
 | [App-GenomeAnnotation.pl](service-scripts/App-GenomeAnnotation.pl) | App script for the [genome annotation service](https://www.bv-brc.org/docs/quick_references/services/genome_annotation_service.html) |
 | [App-GenomeAnnotationGenbank.pl](service-scripts/App-GenomeAnnotationGenbank.pl) | App script for the [genome annotation service](https://www.bv-brc.org/docs/quick_references/services/genome_annotation_service.html) for use with genbank files |
 | [p3x-process-genbank-batch.pl](service-scripts/p3x-process-genbank-batch.pl) | (Experimental) Script for bulk processing of genbank batches |
