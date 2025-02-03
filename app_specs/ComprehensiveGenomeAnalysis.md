@@ -28,7 +28,7 @@ It takes the following parameters:
 | trim | trim_reads | boolean  |  | 0 |
 | min_contig_len | Minimal output contig length | int  |  | 300 |
 | min_contig_cov | Minimal output contig coverage | float  |  | 5 |
-| genome_size | Genome Size | string  |  | 5M |
+| genome_size | Genome Size | int  |  | 5000000 |
 | **Start of annotation parameters. Exactly one of reads, contigs, or genbank file input is required.** |
 | gto | Preannotated genome object | WS: Genome  |  |  |
 | genbank_file | Genbank file | WS: genbank_file  |  |  |

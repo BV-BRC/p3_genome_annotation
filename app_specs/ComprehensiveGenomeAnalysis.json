@@ -216,12 +216,12 @@
       "type": "float"
     },
     {
-      "default": "5M",
+      "default": "5000000",
       "desc": "Estimated genome size (for canu)",
       "id": "genome_size",
       "label": "Genome Size",
       "required": 0,
-      "type": "string"
+      "type": "int"
     },
     {
       "comment": "Start of annotation parameters. Exactly one of reads, contigs, or genbank file input is required."
