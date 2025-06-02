@@ -30,6 +30,7 @@ use constant {
     a_subject_coverage => 3,
     a_identity => 4,
     a_e_value => 5,
+    a_notes => 6,
 };
 
 my ($opt, $usage) = describe_options("%c %o [< in] [> out]",
@@ -138,7 +139,8 @@ else
 #
 if ($opt->json)
 {
-    copy($out_json, $opt->json) or die "Error copying $out_json to " . $opt->json . ": $!";
+    # copy($out_json, $opt->json) or die "Error copying $out_json to " . $opt->json . ": $!";
+    write_file($opt->json, JSON::XS->new->pretty->canonical->encode($rgi_data));
 }
 
 if ($opt->text)
@@ -163,6 +165,8 @@ sub compute_assoc
     # print "Len $match_len $query_len $subject_len\n";
     $assoc->[a_query_coverage]  = 0 + sprintf("%.2f", 100 * $match_len / $query_len);
     $assoc->[a_subject_coverage] = 0 + sprintf("%.2f", 100 * $match_len / $subject_len);
+    my @note_keys = qw(model_name model_type type_match partial);
+    $assoc->[a_notes] = {  map { $_ => $hit_data->{$_} } @note_keys };
 
     return $assoc;
 }
