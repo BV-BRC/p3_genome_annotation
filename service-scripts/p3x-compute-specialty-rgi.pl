@@ -45,7 +45,7 @@ my ($opt, $usage) = describe_options("%c %o [< in] [> out]",
 print($usage->text), exit if $opt->help;
 print($usage->text), exit 1 if (@ARGV != 0);
 
-chomp(my $hostname = `hostname`);
+chomp(my $hostname = `hostname -f`);
 
 # rgi main -n 24 --local --include_nudge -t protein --clean -a BLAST -i /vol/patric3/downloads/genomes/83332.12/83332.12.PATRIC.faa  -o ~/BV-BRC/card-test/h37rv-appbackend.rgi
 
