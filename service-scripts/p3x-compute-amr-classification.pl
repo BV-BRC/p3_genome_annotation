@@ -265,6 +265,7 @@ sub process_MIC
 	    computational_method_version => $model_version,
 	    measurement_unit => 'mg/L',
 	    measurement_value => $ent->{'Median MIC'},
+	    measurement => $ent->{'Median MIC'},
 	    event_id => $event_id,
 	};
 	push(@{$gto->{amr_assertions}}, $assertion);
