@@ -133,6 +133,16 @@ my $ok = run(\@cmd,
 
 $ok or die "Error $? running @cmd\n";
 
+
+my $event = {
+    tool_name => "p3x-compute-specialty-amrfinder db_version=$db_version sw_version=$sw_version",
+    parameters => [map { "$_" } @cmd],
+    execution_time => scalar gettimeofday,
+    hostname => $hostname,
+};
+
+my $event_id = $gto_in->add_analysis_event($event);
+
 my $data = csv(in => $out_file, sep_char => "\t", headers => 'auto');
 for my $ent (@$data)
 {
@@ -149,20 +159,14 @@ for my $ent (@$data)
 	$assoc->[a_subject_coverage] = 0 + $ent->{'% Coverage of reference'};
 	$assoc->[a_identity] = 0 + $ent->{'% Identity to reference'};
 	my @note_keys = ('Class', 'Closest reference name', 'Element symbol', 'Subclass', 'Subtype', 'Type');
-	$assoc->[a_notes] = {  map { $_ => $ent->{$_} } @note_keys };
-	$assoc->[a_notes]->{software_version} = $sw_version;
-	$assoc->[a_notes]->{db_version} = $db_version;
+	$assoc->[a_notes] = {  (map { $_ => $ent->{$_} } @note_keys),
+				   software_version => $sw_version,
+				   db_version => $db_version,
+				   event_id => $event_id,
+			       };
 	push(@{$feat->{similarity_associations}}, $assoc);
     }
 }
-
-my $event = {
-    tool_name => "p3x-compute-specialty-amrfinder db_version=$db_version sw_version=$sw_version",
-    parameters => [map { "$_" } @cmd],
-    execution_time => scalar gettimeofday,
-    hostname => $hostname,
-};
-$gto_in->add_analysis_event($event);
 
 if ($opt->out)
 {

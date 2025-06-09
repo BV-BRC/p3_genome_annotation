@@ -10,6 +10,7 @@
 #
 
 use strict;
+use Data::Dumper;
 use Getopt::Long::Descriptive;  
 use File::Temp;
 use File::Copy;
@@ -100,6 +101,14 @@ my $out_json = "$out_file.json";
 
 my $rgi_data = decode_json(scalar read_file($out_json));
 
+my $event = {
+    tool_name => "p3x-compute-specialty-rgi",
+    parameters => \@cmd,
+    execution_time => scalar gettimeofday,
+    hostname => $hostname,
+};
+my $event_id = $gto_in->add_analysis_event($event);
+
 while (my($fid, $res) = each %$rgi_data)
 {
     #
@@ -108,7 +117,7 @@ while (my($fid, $res) = each %$rgi_data)
     my @hits = sort { $b->{bitscore} <=> $a->{bitscore} or $a->{evalue} <=> $b->{evalue} } values %$res;
     next unless @hits;
     my $best_hit = $hits[0];
-    my $assoc = compute_assoc($best_hit);
+    my $assoc = compute_assoc($best_hit, $event_id);
 
     my $feat = $gto_in->find_feature($fid);
     if (ref($feat))
@@ -116,14 +125,6 @@ while (my($fid, $res) = each %$rgi_data)
 	push(@{$feat->{similarity_associations}}, $assoc);
     }
 }
-
-my $event = {
-    tool_name => "p3x-compute-specialty-rgi",
-    parameters => \@cmd,
-    execution_time => scalar gettimeofday,
-    hostname => $hostname,
-};
-$gto_in->add_analysis_event($event);
 
 if ($opt->out)
 {
@@ -150,7 +151,7 @@ if ($opt->text)
 
 sub compute_assoc
 {
-    my($hit_data) = @_;
+    my($hit_data, $event_id) = @_;
     
     my $assoc = [];
     $assoc->[a_source] = 'CARD';
@@ -166,8 +167,8 @@ sub compute_assoc
     $assoc->[a_query_coverage]  = 0 + sprintf("%.2f", 100 * $match_len / $query_len);
     $assoc->[a_subject_coverage] = 0 + sprintf("%.2f", 100 * $match_len / $subject_len);
     my @note_keys = qw(model_name model_type type_match partial);
-    $assoc->[a_notes] = {  map { $_ => $hit_data->{$_} } @note_keys };
-
+    $assoc->[a_notes] = {  (map { $_ => $hit_data->{$_} } @note_keys),
+			   event_id => $event_id};
     return $assoc;
 }
 
