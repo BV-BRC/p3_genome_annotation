@@ -91,7 +91,6 @@ else
 {
     $work_dir = File::Temp->newdir(CLEANUP => 1);
 }
-print "Using $work_dir\n";
 
 my $in_file = "$work_dir/contigs.fa";
 
