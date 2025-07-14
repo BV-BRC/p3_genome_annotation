@@ -116,6 +116,23 @@
       "desc": "Reference genome ID",
       "type": "string"
     },
+      {
+	  "id": "lovan_min_contig_length",
+	  "required": 0,
+	  "default": 1000,
+	  "label": "Minimum contig length",
+	  "desc": "Minimum contig length for lovan",
+	  "type": "int"
+      },
+      {
+	  "id": "lovan_max_contig_length",
+	  "required": 0,
+	  "default": 30000,
+	  "label": "Maximum contig length",
+	  "desc": "Maximum contig length for lovan",
+	  "type": "int"
+      },
+	  
     {
       "id": "reference_virus_name",
       "required": 0,

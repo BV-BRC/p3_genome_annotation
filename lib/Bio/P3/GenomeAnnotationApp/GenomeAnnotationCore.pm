@@ -579,7 +579,7 @@ sub run_last_job_processing
     close($tmp_params);
 
     my $cmd = "AppEpilog-$parent_app";
-    my @cmd = ($cmd, $self->app->app_service_url, "$tmp_spec", "$tmp_params");
+   my @cmd = ($cmd, $self->app->app_service_url, "$tmp_spec", "$tmp_params");
     my $rc = system(@cmd);
     my $err = $!;
     if ($rc != 0)
