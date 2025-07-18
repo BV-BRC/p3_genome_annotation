@@ -22,11 +22,7 @@ use IO::File;
 use JSON::XS;
 use Cwd;
 
-my $get_time = sub { time, 0 };
-eval {
-    require Time::HiRes;
-    $get_time = sub { Time::HiRes::gettimeofday };
-};
+use Time::HiRes qw(gettimeofday);
 
 use base 'Class::Accessor';
 
@@ -71,7 +67,7 @@ sub init_service
 	warn "Token did not validate\n" . Dumper($token);
     }
     
-    my $stderr = Bio::KBase::GenomeAnnotation::ServiceStderrWrapper->new($ctx, $get_time);
+    my $stderr = Bio::KBase::GenomeAnnotation::ServiceStderrWrapper->new($ctx);
     $ctx->stderr($stderr);
 
     my $impl = Bio::KBase::GenomeAnnotation::GenomeAnnotationImpl->new();
@@ -91,6 +87,9 @@ sub user_id
 sub run_pipeline
 {
     my($self, $genome, $workflow_txt, $recipe_id, $workflow_parameter_override) = @_;
+
+    chomp(my $hostname = `hostname -f`);
+    my $run_start = gettimeofday;
 
     my $workflow;
     if ($workflow_txt)
@@ -171,7 +170,7 @@ sub run_pipeline
 	
     local $Bio::KBase::GenomeAnnotation::Service::CallContext = $self->ctx;
     
-    print STDERR "Running pipeline on host " . `hostname`. "\n";
+    print STDERR "Running pipeline on host $hostname\n";
 
     #
     # We create an output folder for the pipeline and arrange
@@ -185,6 +184,22 @@ sub run_pipeline
     chdir($out_dir);
     
     my $result = $self->impl->run_pipeline($genome, $workflow);
+
+    my $run_end = gettimeofday;
+    my $run_elapsed = $run_end - $run_start;
+
+    $result->{job_metadata} = {
+	user => ($self->user_id() // "unknown"),
+	job_start => $run_start,
+	job_end => $run_end,
+	job_elapsed => $run_elapsed,
+	hostname => $hostname,
+	container => ($ENV{P3_CONTAINER} // "unknown"),
+	slurm_jobname => ($ENV{SLURM_JOBNAME} // "unknown"),
+	slurm_jobid => ($ENV{SLURM_JOBID} // "unknown"),
+	workflow => $workflow,
+	params => $self->ctx->{params},
+    };
 
     $self->app->write_block("genome_id", $result->{id} . "\n");
     
