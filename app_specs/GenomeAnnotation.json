@@ -117,19 +117,19 @@
       "type": "string"
     },
       {
-	  "id": "lovan_min_contig_length",
+	  "id": "lowvan_min_contig_length",
 	  "required": 0,
 	  "default": 1000,
 	  "label": "Minimum contig length",
-	  "desc": "Minimum contig length for lovan",
+	  "desc": "Minimum contig length for lowvan",
 	  "type": "int"
       },
       {
-	  "id": "lovan_max_contig_length",
+	  "id": "lowvan_max_contig_length",
 	  "required": 0,
 	  "default": 30000,
 	  "label": "Maximum contig length",
-	  "desc": "Maximum contig length for lovan",
+	  "desc": "Maximum contig length for lowvan",
 	  "type": "int"
       },
 	  
