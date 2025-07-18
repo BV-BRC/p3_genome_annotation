@@ -196,7 +196,7 @@ sub run_pipeline
 	hostname => $hostname,
 	container => ($ENV{P3_CONTAINER} // "unknown"),
 	task_id => ($ENV{P3_TASK_ID} // "unknown"),
-	slurm_jobname => ($ENV{SLURM_JOBNAME} // "unknown"),
+	slurm_jobname => ($ENV{SLURM_JOB_NAME} // "unknown"),
 	slurm_jobid => ($ENV{SLURM_JOBID} // "unknown"),
 	workflow => $workflow,
 	params => $self->ctx->{params},
