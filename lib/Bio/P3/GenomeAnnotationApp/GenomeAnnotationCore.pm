@@ -195,6 +195,7 @@ sub run_pipeline
 	job_elapsed => $run_elapsed,
 	hostname => $hostname,
 	container => ($ENV{P3_CONTAINER} // "unknown"),
+	task_id => ($ENV{P3_TASK_ID} // "unknown"),
 	slurm_jobname => ($ENV{SLURM_JOBNAME} // "unknown"),
 	slurm_jobid => ($ENV{SLURM_JOBID} // "unknown"),
 	workflow => $workflow,
