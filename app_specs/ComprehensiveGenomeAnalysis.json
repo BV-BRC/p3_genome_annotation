@@ -216,6 +216,14 @@
       "type": "boolean"
     },
     {
+      "default": 5000000,
+      "desc": "Estimated genome size (used for canu and flye and filtlong)",
+      "id": "genome_size",
+      "label": "Genome Size",
+      "required": 0,
+      "type": "int"
+    },
+    {
       "default": 300,
       "desc": "Filter out short contigs in final assembly",
       "id": "min_contig_len",
