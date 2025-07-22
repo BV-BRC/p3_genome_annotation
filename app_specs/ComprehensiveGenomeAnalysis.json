@@ -200,6 +200,22 @@
       "type": "boolean"
     },
     {
+      "default": false,
+      "desc": "Normalize reads using BBNorm before assembly",
+      "id": "normalize",
+      "label": "normalize_reads",
+      "required": 0,
+      "type": "boolean"
+    },
+    {
+      "default": false,
+      "desc": "Filter long reads on length and quality to target depth",
+      "id": "filtlong",
+      "label": "filter_long_reads",
+      "required": 0,
+      "type": "boolean"
+    },
+    {
       "default": 300,
       "desc": "Filter out short contigs in final assembly",
       "id": "min_contig_len",
