@@ -56,7 +56,7 @@ sub preflight_cb
     # Request 8 cpus for some of the fatter bits of the compute.
     #
     return {
-	cpu => 2,
+	cpu => 8,
 	memory => $ram,
 	runtime => int($time),
 	storage => 10 * $res->size,
