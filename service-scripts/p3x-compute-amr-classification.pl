@@ -176,10 +176,10 @@ sub start
 {
     my($self) = @_;
 
-    print STDERR "Start model run for $self->{model}\n";
+    print STDERR "Start model run for $self->{model} in $self->{model_dir}\n@{$self->{cmd}}\n";
     my $handle = IPC::Run::start($self->{cmd},
 		       init => sub {
-			   chdir $self->{model_dir};
+			   chdir $self->{model_dir} or die "Cannot chdir $self->{model_dir}: $!";
 			   $ENV{PATH} = ".:$ENV{PATH}";
 		       });
     $handle or die "Cannot start @{$self->{cmd}}: $!";
