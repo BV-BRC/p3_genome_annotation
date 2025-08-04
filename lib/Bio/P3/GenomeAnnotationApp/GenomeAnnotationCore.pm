@@ -131,7 +131,19 @@ sub run_pipeline
     
     if (!$workflow)
     {
-	$workflow = $self->default_workflow();
+	# Pull the workflow for recipe "default"
+
+	my $recipe = $self->impl->find_recipe("default");
+	if ($recipe->{workflow})
+	{
+	    $workflow = $recipe->{workflow};
+	    print STDERR "Using default workflow: $recipe->{name}\n";
+	}
+	else
+	{
+	    warn "Cannot find workflow named 'default', falling back to hardcoded default\n";
+	    $workflow = $self->default_workflow();
+	}
     }
 
     #
