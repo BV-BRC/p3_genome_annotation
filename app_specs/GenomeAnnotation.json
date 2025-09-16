@@ -119,7 +119,7 @@
       {
 	  "id": "lowvan_min_contig_length",
 	  "required": 0,
-	  "default": 1000,
+	  "default": 300,
 	  "label": "Minimum contig length",
 	  "desc": "Minimum contig length for lowvan",
 	  "type": "int"
@@ -127,7 +127,7 @@
       {
 	  "id": "lowvan_max_contig_length",
 	  "required": 0,
-	  "default": 30000,
+	  "default": 35000,
 	  "label": "Maximum contig length",
 	  "desc": "Maximum contig length for lowvan",
 	  "type": "int"
