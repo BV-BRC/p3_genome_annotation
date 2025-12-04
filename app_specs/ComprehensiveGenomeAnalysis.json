@@ -365,6 +365,23 @@
       "required": 0,
       "type": "string"
     },
+      {
+	  "id": "lowvan_min_contig_length",
+	  "required": 0,
+	  "default": 300,
+	  "label": "Minimum contig length",
+	  "desc": "Minimum contig length for lowvan",
+	  "type": "int"
+      },
+      {
+	  "id": "lowvan_max_contig_length",
+	  "required": 0,
+	  "default": 40000,
+	  "label": "Maximum contig length",
+	  "desc": "Maximum contig length for lowvan",
+	  "type": "int"
+      },
+	  
     {
       "default": null,
       "desc": "(Internal) Parent job for this annotation",
