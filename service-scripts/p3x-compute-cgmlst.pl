@@ -226,8 +226,7 @@ if ($dir_name) {
         my $event_id = $gto_in->add_analysis_event($event);
 
         my $sequence_typing = {
-            typing_method => "sequence_typing",
-            allele_calls  => $allele_call_string,
+            sequence_typing  => $allele_call_string,
             schema_name   => $dir_name,
             event_id      => $event_id,
             loci_total    => $total,
