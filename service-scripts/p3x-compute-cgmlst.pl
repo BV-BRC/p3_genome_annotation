@@ -76,7 +76,6 @@ my %taxon_to_schema = (
     120576 => "brucella_spp",
     29461 => "brucella_spp",
     13373 => "burkholderia_mallei_fli",
-    # burkholderia_mallei_rki => 13373,
     111527 => "burkholderia_pseudomallei",
     197 => "campylobacter_jejuni_coli",
     195 => "campylobacter_jejuni_coli",
@@ -109,7 +108,6 @@ my %taxon_to_schema = (
     287 => "pseudomonas_aeruginosa",
     28901 => "salmonella_enterica",
     615 => "serratia_marcescens",
-    #staphylococcus_argenteus => 985002,
     1280 => "staphylococcus_aureus",
     29388 => "staphylococcus_capitis",
     1314 => "spyogenes",
@@ -128,7 +126,6 @@ foreach my $lineage_id (reverse @{$res[0]->{lineage_ids} // [] }) {
     $lineage_id = int($lineage_id);
     if (exists $taxon_to_schema{$lineage_id}) {
         $dir_name = $taxon_to_schema{$lineage_id};
-        # nb dev
         last;
     }
 }
@@ -259,7 +256,7 @@ if ($dir_name) {
             ], "Join Profiles");
 
             run_cmd([
-                "python3", "/home/nbowers/bvbrc-dev/dev_container/modules/bvbrc_CoreGenomeMLST/service-scripts/core-genome-mlst-utils.py",
+                "core-genome-mlst-utils",
                 "clean-allelic-profile", $master_joined
             ], "Clean Allele Call");
 
@@ -270,7 +267,7 @@ if ($dir_name) {
             run_cmd(["cp", $precomputed_clusters_path, $local_clusters_path], "Copy Master npz");
 
             run_cmd([
-                "python3", "/home/nbowers/bvbrc-dev/dev_container/cgmlst_for_all/dev_clustering/testing_heirCC/testing_pHierCC/git_repo/pHierCC/pHierCC.py",
+                "pHierCC",
                 "--profile", "$tmp_dir/master_joined_clean.tsv",
                 "--output",  $heircc_out,
                 "--append",  $precomputed_clusters_path
@@ -305,9 +302,6 @@ if ($dir_name) {
             my @heircc_values = split(/\t/, $heircc_data);
 
             # change all hc levels
-            # shift @heircc_values;  # drop genome id col
-            # shift @heircc_keys;    # drop genome id col
-            # @cluster_kv{@heircc_keys} = @heircc_values;
             shift @heircc_values;
             shift @heircc_keys;
 
@@ -329,7 +323,6 @@ if ($dir_name) {
 
         # Attach clustering results and push sequence_typing
         # if we want all HC levels
-        #$sequence_typing->{cluster_key_value_pairs} = \%cluster_kv;
         $sequence_typing->{cgmlst_hc} = \%cgmlst_hc;
         push(@{$gto_in->{sequence_types}}, $sequence_typing);
         }
