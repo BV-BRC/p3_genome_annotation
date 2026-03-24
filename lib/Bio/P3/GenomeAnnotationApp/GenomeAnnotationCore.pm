@@ -508,7 +508,8 @@ sub submit_load_files
 		 [subsystem => "subsystem.json"],
 		 [feature_sequence => "feature_sequence.json"],
 		 [sp_gene => "sp_gene.json"],
-		 [taxonomy => "taxonomy.json"]);
+		 [taxonomy => "taxonomy.json"],
+		 [genome_typing => "genome_typing.json"]);
     
     for my $tup (@files)
     {
