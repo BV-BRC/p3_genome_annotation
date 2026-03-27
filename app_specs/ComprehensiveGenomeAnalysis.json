@@ -169,6 +169,7 @@
         "plasmid-spades",
         "single-cell",
         "flye"
+        "meta-flye"
       ],
       "id": "recipe",
       "label": "Assembly recipe",
