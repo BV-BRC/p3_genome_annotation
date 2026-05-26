@@ -254,12 +254,7 @@ sub process_genome
     $core->impl->add_contigs($genome, \@contigs);
 
     local $Bio::KBase::GenomeAnnotation::Service::CallContext = $core->ctx;
-    #
-    # We stash a copy of the parameters for those methods that
-    # need to dip into them for special processing.
-    #
-    $core->ctx->{params} = $params;
-    
+
     my $result;
 
     #

@@ -38,6 +38,12 @@ sub new
 
     $self->init_service();
 
+    #
+    # Stash a copy of the parameters in the service context for those
+    # methods that need to dip into them for special processing.
+    #
+    $self->ctx->{params} = $self->params;
+
     return $self;
 }
 
