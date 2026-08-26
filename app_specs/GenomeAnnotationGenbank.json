@@ -102,7 +102,23 @@
 	  "desc": "Maximum contig length for lowvan",
 	  "type": "int"
       },
-	  
+      {
+	  "id": "lowvan_min_contig_bit",
+	  "required": 0,
+	  "default": null,
+	  "label": "Minimum classification bit score",
+	  "desc": "Minimum BLASTn bit score for lowvan to accept a taxon call. Leave unset to use the annotation's own default of 150",
+	  "type": "float"
+      },
+      {
+	  "id": "lowvan_fallback_viral_taxon",
+	  "required": 0,
+	  "default": false,
+	  "label": "Fall back to the lineage taxon",
+	  "desc": "If lowvan's BLASTn classification finds no reference above the minimum bit score, retry once using the annotation taxon taken from the genome's own lineage. BLASTn still goes first, so this only affects genomes that would otherwise be left unannotated",
+	  "type": "bool"
+      },
+
     {
       "id": "reference_virus_name",
       "required": 0,
