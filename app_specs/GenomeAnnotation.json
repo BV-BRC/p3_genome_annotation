@@ -17,9 +17,9 @@
     {
       "id": "scientific_name",
       "label": "Scientific Name",
-      "required": 1,
+      "required": 0,
       "default": null,
-      "desc": "Scientific name of genome to be annotated",
+      "desc": "Scientific name of genome to be annotated. If omitted and taxonomy_id is also omitted, will be predicted via skani.",
       "type": "string"
     },
     {
@@ -108,6 +108,7 @@
       "desc": "Basename for the generated output files. Defaults to the basename of the input data.",
       "type": "wsid"
     },
+
     {
       "id": "reference_genome_id",
       "required": 0,
